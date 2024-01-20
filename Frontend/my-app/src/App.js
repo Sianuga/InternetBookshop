@@ -1,21 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // Mock data
 const books = [
-  { id: 1, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-  { id: 2, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-    { id: 3, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-    { id: 4, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-    { id: 5, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-    { id: 6, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-    { id: 7, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-    { id: 8, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
+  // { id: 1, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
+  // { id: 2, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
+  //   { id: 3, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
+  //   { id: 4, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
+  //   { id: 5, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
+  //   { id: 6, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
+  //   { id: 7, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
+  //   { id: 8, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
   // ... more books
 ];
 
+
+
 function App() {
-  const [filteredBooks, setFilteredBooks] = useState(books);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBooksData = async () => {
+      try {
+        const endpoint = 'http://127.0.0.1:8000/bookshop/all-books/';
+        const data = await fetchBooks(endpoint);
+        setFilteredBooks(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching books data:', error);
+        // Handle the error, show an error message, or perform other actions
+        setLoading(false);
+      }
+    };
+
+    fetchBooksData();
+
+    //print(books)
+  }, []);
+
+  useEffect(() => {
+    console.log('Filtered Books:', filteredBooks);
+    // Uncomment the line below to log each book individually
+    // filteredBooks.forEach(book => console.log('Book Details:', book));
+  }, [filteredBooks]);
+
 
   const handleFilterChange = (e) => {
     // Logic to filter books based on the event
@@ -82,6 +111,23 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         <button onClick={() => onPageChange('next')}>Następna strona</button>
       </div>
   );
+}
+
+async function fetchBooks(endpoint){
+  try {
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+      // Handle non-OK responses
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error; // Re-throw the error for handling at a higher level if needed
+  }
 }
 
 export default App;
