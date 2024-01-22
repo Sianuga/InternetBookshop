@@ -1,87 +1,35 @@
-import React, { useState } from 'react';
-import './App.css';
 
-// Mock data
-const books = [
-  { id: 1, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-  { id: 2, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-    { id: 3, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-    { id: 4, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-    { id: 5, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-    { id: 6, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-    { id: 7, title: 'Clone. Students', price: '33.99zł', cover: 'path_to_cover_1' },
-    { id: 8, title: 'Rider', price: '40.99zł', cover: 'path_to_cover_2' },
-  // ... more books
-];
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import ProfileEdit from './ProfileEdit';
+import ShoppingCart from './ShoppingCart';
+import Home from "./Home";
+import Delivery from "./Delivery";
+import Payment from "./Payment";
+import Product from "./Product";
 
 function App() {
-  const [filteredBooks, setFilteredBooks] = useState(books);
+    return (
+        <Router>
+            {}
+            <nav style={{ display: 'none' }}>
+                <Link to="/edit-profile">Edit Profile</Link>
+                <Link to="/shopping-cart">Shopping Cart</Link>
+            </nav>
 
-  const handleFilterChange = (e) => {
-    // Logic to filter books based on the event
-    console.log(e.target.value);
-    // For now, we'll just display all books regardless of the filter
-    setFilteredBooks(books);
-  };
-
-  const handlePageChange = (direction) => {
-    // Logic to change page
-    console.log(direction);
-  };
-
-  return (
-      <div className="App">
-        <div className="user-account">
-          {/* User account will go here */}
-        </div>
-        <div className="filter">
-          <Filter onFilterChange={handleFilterChange} />
-        </div>
-        <div className="products">
-          {filteredBooks.map((book) => (
-              <ProductCard key={book.id} cover={book.cover} title={book.title} price={book.price} />
-          ))}
-        </div>
-        <div className="pagination">
-          <Pagination currentPage={1} totalPages={10} onPageChange={handlePageChange} />
-        </div>
-      </div>
-  );
+            {/* Define your routes */}
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/edit-profile" element={<ProfileEdit />} />
+                <Route path="/shopping-cart" element={<ShoppingCart />} />
+                <Route path={"/delivery"} element={<Delivery/>}/>
+                <Route path={"/payment"} element={<Payment/>}/>
+                <Router path={"/product"} element={<Product/>}/>
+                {/* ... other routes */}
+            </Routes>
+        </Router>
+    );
 }
 
-function ProductCard({ cover, title, price }) {
-  return (
-      <div className="product-card">
-        <img src={cover} alt={title} />
-        <h3>{title}</h3>
-        <p>Cena: {price}</p>
-        <button>DODAJ</button>
-      </div>
-  );
-}
-
-function Filter({ onFilterChange }) {
-  return (
-      <div className="filter">
-        <input type="text" placeholder="Nazwa" onChange={onFilterChange} />
-        <select onChange={onFilterChange}>
-          <option value="fantasy">Fantasy</option>
-          {/* Other categories */}
-        </select>
-        {/* Price range inputs */}
-        <button>Filtruj</button>
-      </div>
-  );
-}
-
-function Pagination({ currentPage, totalPages, onPageChange }) {
-  return (
-      <div className="pagination">
-        <button onClick={() => onPageChange('prev')}>Poprzednia strona</button>
-        <span>{currentPage}/{totalPages}</span>
-        <button onClick={() => onPageChange('next')}>Następna strona</button>
-      </div>
-  );
-}
 
 export default App;

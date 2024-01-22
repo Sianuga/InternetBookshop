@@ -1,0 +1,151 @@
+/* Home.css */
+.App {
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 5px 20px;
+  gap: 20px;
+  overflow-y: hidden;
+}
+.main{
+  margin: 0px auto;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root, .App {
+  min-height: 100%;
+}
+
+
+.content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  width: 100%;
+  gap: 20px;
+}
+
+
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  overflow-y: auto;
+  padding: 25px 20px;
+  border-right: 2px solid #e5e7eb;
+  max-height: 725px;
+}
+
+
+.filter-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter,
+.pagination {
+  margin-bottom: 20px;
+}
+
+.product-card .card {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  padding: 1em 5em;
+}
+
+.product-card .card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.product-card .btn-primary {
+  background-color: #4a90e2;
+  border-color: #4a90e2;
+  border-radius: 20px;
+  padding: 5px 15px;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.product-card h5 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+    text-align: center;
+}
+
+.product-card p {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: center;
+}
+
+.pagination .page-link {
+  border-radius: 20px;
+  border-color: #ddd;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4a90e2;
+  border-color: #4a90e2;
+}
+
+
+
+.filter-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: auto;
+}
+
+.filter-menu .form-control,
+.filter-menu .form-select,
+.filter-menu .form-range,
+.filter-menu .btn {
+  width: 100%;
+}
+
+
+.icon-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.profile-icon,
+.shopping-cart-icon {
+  cursor: pointer;
+}
+
+
+
+
+.filter-menu p {
+  text-align: center;
+  width: 100%;
+}
+
+
