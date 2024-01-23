@@ -132,12 +132,7 @@ function ProductCard({ cover, title, price, quantity, setQuantity }) {
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{price}</p>
             </div>
-            <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                className="quantity-input"
-            />
+            <h3 className={'quantity'}>{quantity}</h3>
         </div>
     );
 }
