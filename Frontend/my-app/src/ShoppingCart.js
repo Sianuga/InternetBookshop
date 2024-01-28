@@ -2,6 +2,8 @@ import './ShoppingCart.css'
 // ShoppingCart.js
 import {useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
+import { CartContext } from './CartContext';
+import {useContext} from "react";
 
 
 // Mock data
@@ -17,6 +19,13 @@ const booksData = [
 ];
 
 function ShoppingCart() {
+    const { cartItemss, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
     const [filteredBooks, setFilteredBooks] = useState(booksData);
     // Dummy data for the shopping cart items
     const cartItems = [

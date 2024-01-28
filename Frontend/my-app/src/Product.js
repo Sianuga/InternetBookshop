@@ -1,6 +1,9 @@
 // Product.js
 import './Product.css';
 import cloneStudentsCover from "./Img/preview-page0.jpg";
+import { CartContext } from './CartContext';
+import {useContext} from "react";
+
 const booksData = [
     { id: 1, title: 'Clone. Students', price: '33.99zł', cover: cloneStudentsCover, author: 'Author Name', description: 'Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Bookhere...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book  description here...Book description here...' },
     { id: 2, title: 'Rider', price: '40.99zł', cover: cloneStudentsCover, author: 'Author Name', description: 'Book description here...' },
@@ -19,6 +22,14 @@ const booksData = [
 function Product() {
     const mainBook = booksData[0];
     const relatedBooks = booksData.slice(1).sort(() => 0.5 - Math.random()).slice(0,6 );
+
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
 
     return (
         <div>

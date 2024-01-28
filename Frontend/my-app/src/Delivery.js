@@ -1,8 +1,8 @@
 import './Delivery.css'
 // ShoppingCart.js
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
-
+import { CartContext } from './CartContext';
 
 // Mock data
 const booksData = [
@@ -18,6 +18,14 @@ const booksData = [
 
 function Delivery() {
     const [zipCode, setZipCode] = useState('');
+
+    const { cartItemss, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
 
     const handleZipCodeChange = (event) => {
         const { value } = event.target;

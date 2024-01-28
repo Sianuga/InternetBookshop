@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 import cloneStudentsCover from './Img/preview-page0.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { CartContext } from './CartContext';
 
 // Mock data
 const booksData = [
@@ -22,6 +23,12 @@ function Home() {
     const [filteredBooks, setFilteredBooks] = useState(booksData);
     const [priceRange, setPriceRange] = useState({ min: 0, max: 100 });
 
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
 
     const handleFilterChange = (e) => {
         console.log(e.target.value);

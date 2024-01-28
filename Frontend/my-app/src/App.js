@@ -6,6 +6,7 @@ import Payment from "./Payment";
 import Product from "./Product";
 import Home from "./Home";
 import Profile from "./ProfileEdit";
+import { CartProvider } from './CartContext';
 
 function App() {
     return (
@@ -16,7 +17,9 @@ function App() {
             </nav>
 
             {/* Define your routes */}
+
             <Routes>
+                <CartProvider>
                 <Route path="/" element={<Home />} />
                 <Route path="/edit-profile" element={<Profile />} />
                 <Route path="/shopping-cart" element={<ShoppingCart />} />
@@ -24,6 +27,7 @@ function App() {
                 <Route path="/payment" element={<Payment/>}/>
                 <Route path="/product" element={<Product/>}/>
                 {/* ... other routes */}
+            </CartProvider>
             </Routes>
         </Router>
     );
