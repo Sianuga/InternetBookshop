@@ -1,5 +1,4 @@
 // Product.js
-import React from 'react';
 import './Product.css';
 import cloneStudentsCover from "./Img/preview-page0.jpg";
 const booksData = [

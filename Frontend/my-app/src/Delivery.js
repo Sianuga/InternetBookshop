@@ -1,6 +1,6 @@
 import './Delivery.css'
 // ShoppingCart.js
-import React, {useState} from 'react';
+import {useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
 
 
