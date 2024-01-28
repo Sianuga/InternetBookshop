@@ -54,14 +54,7 @@ function Home() {
 
     return (
         <div className="container main">
-            <div className="icon-bar">
-                <div className="profile-icon" onClick={handleProfileClick}>
-                    <FontAwesomeIcon icon={faUser} />
-                </div>
-                <div className="shopping-cart-icon" onClick={handleCartClick}>
-                    <FontAwesomeIcon icon={faShoppingCart} />
-                </div>
-            </div>
+
             <div className="row">
                 <div className="col-md-9 book-grid">
                     {filteredBooks.map((book) => (
