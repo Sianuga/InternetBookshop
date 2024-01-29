@@ -3,6 +3,7 @@ import './Payment.css'
 import {useContext, useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
 import { CartContext } from './CartContext';
+import {Link} from "react-router-dom";
 
 
 // Mock data
@@ -70,8 +71,8 @@ function Payment() {
                         </select>
                     </div>
                     <div className="actions-f">
-                        <button className="back-button">Powrót</button>
-                        <button className="proceed-button">Przejdź dalej</button>
+                        <Link to={"/delivery"}><button className="back-button">Powrót</button></Link>
+
                     </div>
                 </div>
                 <div className="cart-items">
@@ -89,8 +90,8 @@ function Payment() {
                         ))}
                     </div>
                     <div className="actions">
-                        <button className="back-button">Powrót</button>
-                        <button className="proceed-button">Przejdź dalej</button>
+
+                      <Link to={"/paymentSuccesful"}>  <button className="proceed-button">Przejdź dalej</button> </Link>
                     </div>
                 </div>
             </div>
@@ -106,12 +107,7 @@ function ProductCard({ cover, title, price, quantity, setQuantity }) {
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{price}</p>
             </div>
-            <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                className="quantity-input"
-            />
+            <h3 className={'quantity'}>{quantity}</h3>
         </div>
     );
 }
