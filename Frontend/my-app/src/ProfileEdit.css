@@ -1,8 +1,7 @@
 /* Profile.css */
 .profile-container {
     max-width: 960px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 0px auto;
     background: #fff;
 
 }
@@ -65,7 +64,7 @@ input:disabled {
 
 .profile-actions {
     text-align: right;
-    padding-top: 20px;
+    padding-top: 9px;
 }
 
 .confirm-btn,

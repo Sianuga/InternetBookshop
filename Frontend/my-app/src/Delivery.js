@@ -1,8 +1,9 @@
 import './Delivery.css'
 // ShoppingCart.js
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
-
+import { CartContext } from './CartContext';
+import {Link} from "react-router-dom";
 
 // Mock data
 const booksData = [
@@ -18,6 +19,14 @@ const booksData = [
 
 function Delivery() {
     const [zipCode, setZipCode] = useState('');
+
+    const { cartItemss, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
 
     const handleZipCodeChange = (event) => {
         const { value } = event.target;
@@ -53,6 +62,7 @@ function Delivery() {
     const removeItemFromCart = (itemId) => {
         console.log('Remove item:', itemId);
         // Implement removal logic
+
     };
 
     const handleQuantityChange = (id, newQuantity) => {
@@ -96,8 +106,8 @@ function Delivery() {
                     </select>
                     </div>
                     <div className="actions">
-                        <button className="back-button">Powrót</button>
-                        <button className="proceed-button">Przejdź dalej</button>
+                        <Link to={"/shopping-cart"}><button className="back-button">Powrót</button> </Link>
+
                     </div>
                 </div>
                 <div className="cart-items">
@@ -115,8 +125,8 @@ function Delivery() {
                         ))}
                     </div>
                     <div className="actions">
-                        <button className="back-button">Powrót</button>
-                        <button className="proceed-button">Przejdź dalej</button>
+
+                    <Link to={"/payment"}>  <button className="proceed-button">Przejdź dalej</button> </Link>
                     </div>
                 </div>
             </div>
