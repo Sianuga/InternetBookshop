@@ -11,6 +11,7 @@ import Home from "./Home";
 import Profile from "./ProfileEdit";
 import { CartProvider } from './CartContext';
 import IconBar from "./IconBar";
+import PaymentSuccesful from "./PaymentSuccesful";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/delivery" element={<Delivery/>}/>
                 <Route path="/payment" element={<Payment/>}/>
                 <Route path="/product" element={<Product/>}/>
+                <Route path="/paymentSuccesful" element={<PaymentSuccesful/>}/>
                 {/* ... other routes */}
 
             </Routes>
