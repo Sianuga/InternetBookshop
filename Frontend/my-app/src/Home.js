@@ -20,7 +20,7 @@ export const fetchBooks = async () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-  
+
       const data = await response.json();
       return data;
     } catch (error) {
@@ -29,6 +29,11 @@ export const fetchBooks = async () => {
     }
   };
 
+
+
+  const booksData = fetchBooks();
+
+function Home() {
     const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
 
     // Example usage
@@ -37,9 +42,7 @@ export const fetchBooks = async () => {
     };
 
 
-  const booksData = fetchBooks();
 
-function Home() {
     const [allBooks, setAllBooks] = useState([]);
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [priceRange, setPriceRange] = useState({ min: 0, max: 100 });
@@ -50,29 +53,29 @@ function Home() {
     const handleFilterChange = ({ name, category, price }) => {
         // Update the filters
         setNameFilter(name);
-    
+
         // Filter books based on the selected category
         let filteredBooks = allBooks;
         if (category !== 'All Categories') {
             filteredBooks = filteredBooks.filter(book => book.category === category);
         }
-    
+
         // Filter books based on the name
         if (name.trim() !== '') {
             filteredBooks = filteredBooks.filter(book => book.title.toLowerCase().includes(name.toLowerCase()));
         }
-    
+
         // Filter books based on the price range
         const parsedMaxPrice = parseFloat(price.max);
         filteredBooks = filteredBooks.filter(book => parseFloat(book.price) <= parsedMaxPrice);
-    
+
         // Update the filtered books
         setFilteredBooks(filteredBooks);
-    
+
         // Update the price range state
         setPriceRange({ min: 0, max: parsedMaxPrice });
     };
-    
+
     useEffect(() => {
         const fetchBooksData = async () => {
           try {
@@ -91,7 +94,7 @@ function Home() {
             setLoading(false);
           }
         };
-    
+
         fetchBooksData();
       }, []);
 
@@ -117,11 +120,11 @@ function Home() {
 
     // const handlePriceChange = (maxPrice) => {
     //     const parsedMaxPrice = parseInt(maxPrice, 10);
-    
+
     //     // Filter books based on the selected price range
     //     const filteredBooks = allBooks.filter(book => parseFloat(book.price) <= parsedMaxPrice);
     //     setFilteredBooks(filteredBooks);
-    
+
     //     // Update the price range state
     //     setPriceRange({ min: 0, max: parsedMaxPrice });
     // }
@@ -144,7 +147,7 @@ function Home() {
         </div>
     );
 
-    
+
 }
 
 
@@ -152,7 +155,7 @@ function ProductCard({ cover, title, price, id }) {
     const linkTo = `/product/${id}`;
     return (
         <div className="product-card w-1/2 md:w-1/3 px-2 mb-4">
-            
+
             <div className="card">
 
                 <Link to={linkTo}>
@@ -206,7 +209,7 @@ function Filter({ onFilterChange, categories }) {
     }
 
     return (
-        
+
         <div className="col-4">
             <input type="text" className="form-control mb-3" placeholder="Nazwa" onChange={handleNameChange} />
             <select className="form-select mb-3" onChange={handleCategoryChange}>
