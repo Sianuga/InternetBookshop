@@ -30,7 +30,7 @@ function App() {
                 <Route path="/shopping-cart" element={<ShoppingCart />} />
                 <Route path="/delivery" element={<Delivery/>}/>
                 <Route path="/payment" element={<Payment/>}/>
-                <Route path="/product" element={<Product/>}/>
+                <Route path="/product/:id" element={<Product/>}/>
                 <Route path="/paymentSuccesful" element={<PaymentSuccesful/>}/>
                 {/* ... other routes */}
 
