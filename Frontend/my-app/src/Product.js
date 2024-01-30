@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams} from 'react-router-dom';
 import { fetchBooks } from './Home';
 import { BASE_DJANGO_URL } from './Home';
+import { CartContext } from './CartContext';
+import {useContext} from "react";
 
 const booksData = [
     // { id: 1, title: 'Clone. Students', price: '33.99zł', cover: cloneStudentsCover, author: 'Author Name', description: 'Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Bookhere...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book  description here...Book description here...' },
@@ -48,6 +50,14 @@ const booksData = [
             fetchData();
         }, [id]); // Make sure to include 'id' in the dependency array to re-fetch data when the id changes
 
+
+
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
 
 
     return (

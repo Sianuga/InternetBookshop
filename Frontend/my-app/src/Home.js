@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 import cloneStudentsCover from './Img/preview-page0.jpg';
@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { CartContext } from './CartContext';
+
 
 
 
@@ -26,6 +28,14 @@ export const fetchBooks = async () => {
       throw error;
     }
   };
+
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
 
   const booksData = fetchBooks();
 
@@ -119,14 +129,7 @@ function Home() {
 
     return (
         <div className="container main">
-            <div className="icon-bar">
-                <div className="profile-icon" onClick={handleProfileClick}>
-                    <FontAwesomeIcon icon={faUser} />
-                </div>
-                <div className="shopping-cart-icon" onClick={handleCartClick}>
-                    <FontAwesomeIcon icon={faShoppingCart} />
-                </div>
-            </div>
+
             <div className="row">
                 <div className="col-md-9 book-grid">
                     {filteredBooks.map((book) => (

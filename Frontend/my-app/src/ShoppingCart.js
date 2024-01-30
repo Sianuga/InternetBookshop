@@ -2,6 +2,9 @@ import './ShoppingCart.css'
 // ShoppingCart.js
 import {useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
+import { CartContext } from './CartContext';
+import {useContext} from "react";
+import {Link} from "react-router-dom";
 
 
 // Mock data
@@ -17,6 +20,31 @@ const booksData = [
 ];
 
 function ShoppingCart() {
+    const { cartItemss, addToCart, removeFromCart } = useContext(CartContext);
+
+
+    // Function to update quantity
+    const updateQuantity = (id, newQuantity) => {
+        const updatedBooksData = filteredBooks.map(book => {
+            if (book.id === id) {
+                return { ...book, quantity: newQuantity };
+            }
+            return book;
+        });
+        setFilteredBooks(updatedBooksData);
+    };
+
+    // Function to remove item from cart
+    const removeItemFromCart = (id) => {
+        const updatedBooksData = filteredBooks.filter(book => book.id !== id);
+        setFilteredBooks(updatedBooksData);
+    };
+
+    // Example usage
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
     const [filteredBooks, setFilteredBooks] = useState(booksData);
     // Dummy data for the shopping cart items
     const cartItems = [
@@ -25,16 +53,13 @@ function ShoppingCart() {
         { id: 3, title: 'Human design', quantity: 1 }
     ];
 
-    // Function to handle removing items from the cart
-    const removeItemFromCart = (itemId) => {
-        console.log('Remove item:', itemId);
-        // Implement removal logic
-    };
+
 
     const handleQuantityChange = (id, newQuantity) => {
         // Logic to update quantity for the item with the given id
         console.log(`Update quantity for ${id}: ${newQuantity}`);
         // You will need to implement state management for the quantities
+        booksData.map((book) => { if (book.id === id) { book.quantity = newQuantity } });
     };
 
     return (
@@ -51,29 +76,31 @@ function ShoppingCart() {
                     <label>Email:</label>
                     <input type="text" />
                     <label>Telefon:</label>
-                    <input type="text" />
+                    <input className={'fText'} type="text" />
                     <div className="actions">
-                        <button className="back-button">Powrót</button>
-                        <button className="proceed-button">Przejdź dalej</button>
+                        <Link to={"/"}> <button className="back-button">Powrót</button> </Link>
+
                     </div>
                 </div>
+
                 <div className="cart-items">
                     <h2 className={'content'}>Zawartość koszyka:</h2>
                     <div className="col-md-9 book-grid-sc">
                         {filteredBooks.map((book) => (
                             <ProductCard
                                 key={book.id}
+                                id={book.id}
                                 cover={book.cover}
                                 title={book.title}
                                 price={book.price}
-                                quantity={1} // Replace with the actual quantity state
-                                setQuantity={(newQuantity) => handleQuantityChange(book.id, newQuantity)}
+                                quantity={book.quantity}
+                                updateQuantity={updateQuantity}
+                                removeItemFromCart={removeItemFromCart}
                             />
                         ))}
                     </div>
                     <div className="actions">
-                        <button className="back-button">Powrót</button>
-                        <button className="proceed-button">Przejdź dalej</button>
+                        <Link to={"/delivery"}><button className="proceed-button">Przejdź dalej</button></Link>
                     </div>
                 </div>
             </div>
@@ -81,20 +108,25 @@ function ShoppingCart() {
     );
 }
 
-function ProductCard({ cover, title, price, quantity, setQuantity }) {
+function ProductCard({ id, cover, title, price, quantity, updateQuantity, removeItemFromCart }) {
     return (
         <div className="product-card">
+            <button onClick={() => removeItemFromCart(id)} className="remove-item">X</button>
             <img src={cover} alt={title} className="card-img" />
             <div className="card-details">
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{price}</p>
+
             </div>
-            <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                className="quantity-input"
-            />
+            <div className="quantity-controls">
+                <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => updateQuantity(id, Math.max(1, parseInt(e.target.value)))}
+                    className="quantity-input"
+                />
+
+            </div>
         </div>
     );
 }
