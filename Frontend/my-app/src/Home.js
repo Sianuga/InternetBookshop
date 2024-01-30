@@ -5,12 +5,11 @@ import cloneStudentsCover from './Img/preview-page0.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { CartContext } from './CartContext';
+import {Link} from "react-router-dom";
 
 
 
-    const { addToCart } = useContext(CartContext);
 
 
 export const BASE_DJANGO_URL = 'http://localhost:8000';
@@ -36,16 +35,12 @@ export const fetchBooks = async () => {
   const booksData = fetchBooks();
 
 function Home() {
-
+    const { addToCart } = useContext(CartContext);
 
     const handleAddToCart = (book) => {
         console.log('Add to cart:', book);
         addToCart(book);
     };
-
-
-    const handleFilterChange = (e) => {
-        console.log(e.target.value);
 
 
 
@@ -145,13 +140,13 @@ function Home() {
                 <div className="col-md-9 book-grid">
                     {filteredBooks.map((book) => (
                         <ProductCard
-                            key={book.id} 
                             cover={`${BASE_DJANGO_URL}${book.cover}`}
                             title={book.title}
                             price={book.price}
+                            id={book.id}
                             onAddToCart={() => handleAddToCart(book)}
                         />
-         
+
                     ))}
                 </div>
                 <div className="col-md-3 filter-menu">
@@ -167,7 +162,7 @@ function Home() {
 
 
 
-function ProductCard({ cover, title, price, onAddToCart }) {
+function ProductCard({ cover, title, price, id, onAddToCart }) {
     const linkTo = `/product/${id}`;
     return (
         <div className="product-card w-1/2 md:w-1/3 px-2 mb-4">
