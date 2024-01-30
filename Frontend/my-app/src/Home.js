@@ -23,18 +23,21 @@ function Home() {
     const [filteredBooks, setFilteredBooks] = useState(booksData);
     const [priceRange, setPriceRange] = useState({ min: 0, max: 100 });
 
-    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext);
 
-    // Example usage
-    const handleAddToCart = (item) => {
-        addToCart(item);
+    const handleAddToCart = (book) => {
+        console.log('Add to cart:', book);
+        addToCart(book);
     };
+
 
     const handleFilterChange = (e) => {
         console.log(e.target.value);
 
         setFilteredBooks(booksData);
     };
+
+
 
     const handleCartClick = () => {
         console.log('Cart icon clicked');
@@ -58,7 +61,13 @@ function Home() {
             <div className="row">
                 <div className="col-md-9 book-grid">
                     {filteredBooks.map((book) => (
-                        <ProductCard key={book.id} cover={book.cover} title={book.title} price={book.price} />
+                        <ProductCard
+                            key={book.id}
+                            cover={book.cover}
+                            title={book.title}
+                            price={book.price}
+                            onAddToCart={() => handleAddToCart(book)}
+                        />
                     ))}
                 </div>
                 <div className="col-md-3 filter-menu">
@@ -71,7 +80,7 @@ function Home() {
 }
 
 
-function ProductCard({ cover, title, price }) {
+function ProductCard({ cover, title, price, onAddToCart }) {
     return (
         <div className="product-card w-1/2 md:w-1/3 px-2 mb-4">
 
@@ -85,7 +94,7 @@ function ProductCard({ cover, title, price }) {
 
                     <p className="card-text">{price}</p>
 
-                    <button className="btn btn-primary">DODAJ</button>
+                    <button className="btn btn-primary" onClick={onAddToCart}>DODAJ</button>
 
                 </div>
 
