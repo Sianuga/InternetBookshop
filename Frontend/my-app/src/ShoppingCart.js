@@ -54,6 +54,9 @@ function ShoppingCart() {
     };
 
     const handleQuantityChange = (id, newQuantity) => {
+        if (newQuantity < 1) {
+            return;
+        }
         updateQuantity(id, newQuantity);
     };
 
@@ -97,7 +100,7 @@ function ShoppingCart() {
 
                 <div className="cart-items">
                     <h2 >Zawartość koszyka:</h2>
-                    {isCartEmpty ? (
+                    {isCartEmpty() ? (
                         <p>Your cart is empty.</p>
                     ) : (
                         <div className="col-md-9 book-grid-sc">

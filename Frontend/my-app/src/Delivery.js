@@ -146,7 +146,7 @@ function Delivery() {
                                 cover={`${BASE_DJANGO_URL}${book.cover}`}
                                 title={book.title}
                                 price={book.price}
-                                quantity={1} // Replace with the actual quantity state
+                                quantity={book.quantity}
                                 setQuantity={(newQuantity) => handleQuantityChange(book.id, newQuantity)}
                             />
                         ))}

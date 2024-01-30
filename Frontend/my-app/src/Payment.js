@@ -3,7 +3,7 @@ import './Payment.css'
 import {useContext, useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
 import { CartContext } from './CartContext';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {BASE_DJANGO_URL} from "./Home";
 import {toast, ToastContainer} from 'react-toastify';
 
@@ -27,6 +27,8 @@ function Payment() {
     const [bankName, setBankName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('Online');
+    const [deliveryMethod, setDeliveryMethod] = useState('Na adres');
+    const navigate = useNavigate();
 
     // Function to calculate total sum
     const calculateTotal = () => {
@@ -57,7 +59,7 @@ function Payment() {
                 toast.error("Please enter a valid account number.");
             } else {
                 toast.success("Payment details are valid. Proceeding to the next step.");
-                // Navigation to the next step goes here.
+                navigate('/paymentSuccesful')
             }
         } else if (paymentMethod === "Przy odbiorze") {
             // Navigation to the next step for cash on delivery goes here.
@@ -67,7 +69,7 @@ function Payment() {
 
     const isValidBankName = name => name.trim().length > 0;
     const isValidAccountNumber = number => {
-
+        if(number===1) return false;
         return number.length >= 26; // Adjust the length requirement as needed
     };
 
@@ -131,7 +133,7 @@ function Payment() {
                     <h2 >Suma:</h2>
                     <h3 className={'content'}>{totalSum} zł</h3>
                     <div className="actions">
-                      <Link to={"/paymentSuccesful"}>  <button className="proceed-button"  onClick={handleProceed}>Przejdź dalej</button> </Link>
+                        <button className="proceed-button"  onClick={handleProceed}>Przejdź dalej</button>
                     </div>
                 </div>
             </div>
