@@ -1,6 +1,6 @@
 import './Payment.css'
 // ShoppingCart.js
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
 import { CartContext } from './CartContext';
 import {Link} from "react-router-dom";
@@ -18,9 +18,11 @@ const booksData = [
     // ... more books
 ];
 
+
+
 function Payment() {
 
-    const { cartItemss, addToCart, removeFromCart } = useContext(CartContext);
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
 
     // Example usage
     const handleAddToCart = (item) => {
@@ -28,13 +30,7 @@ function Payment() {
     };
 
 
-    const [filteredBooks, setFilteredBooks] = useState(booksData);
-    // Dummy data for the shopping cart items
-    const cartItems = [
-        { id: 1, title: 'Clone. Students', quantity: 1 },
-        { id: 2, title: 'Rider', quantity: 1 },
-        { id: 3, title: 'Human design', quantity: 1 }
-    ];
+
 
     // Function to handle removing items from the cart
     const removeItemFromCart = (itemId) => {
@@ -78,14 +74,13 @@ function Payment() {
                 <div className="cart-items">
                     <h2 className={'content'}>Zawartość koszyka:</h2>
                     <div className="col-md-9 book-grid-d">
-                        {filteredBooks.map((book) => (
+                        {cartItems.map((item) => (
                             <ProductCard
-                                key={book.id}
-                                cover={book.cover}
-                                title={book.title}
-                                price={book.price}
-                                quantity={1} // Replace with the actual quantity state
-                                setQuantity={(newQuantity) => handleQuantityChange(book.id, newQuantity)}
+                                key={item.id}
+                                cover={item.cover}
+                                title={item.title}
+                                price={item.price}
+                                quantity={item.quantity}
                             />
                         ))}
                     </div>

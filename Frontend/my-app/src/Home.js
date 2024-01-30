@@ -10,6 +10,8 @@ import { CartContext } from './CartContext';
 
 
 
+    const { addToCart } = useContext(CartContext);
+
 
 export const BASE_DJANGO_URL = 'http://localhost:8000';
 
@@ -34,12 +36,16 @@ export const fetchBooks = async () => {
   const booksData = fetchBooks();
 
 function Home() {
-    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
 
-    // Example usage
-    const handleAddToCart = (item) => {
-        addToCart(item);
+
+    const handleAddToCart = (book) => {
+        console.log('Add to cart:', book);
+        addToCart(book);
     };
+
+
+    const handleFilterChange = (e) => {
+        console.log(e.target.value);
 
 
 
@@ -76,6 +82,7 @@ function Home() {
         setPriceRange({ min: 0, max: parsedMaxPrice });
     };
 
+
     useEffect(() => {
         const fetchBooksData = async () => {
           try {
@@ -108,6 +115,7 @@ function Home() {
     //     }
     // };
 
+
     const handleCartClick = () => {
         console.log('Cart icon clicked');
 
@@ -136,7 +144,14 @@ function Home() {
             <div className="row">
                 <div className="col-md-9 book-grid">
                     {filteredBooks.map((book) => (
-                        <ProductCard key={book.id} cover={`${BASE_DJANGO_URL}${book.cover}`} title={book.title} price={book.price} id={book.id} />
+                        <ProductCard
+                            key={book.id} 
+                            cover={`${BASE_DJANGO_URL}${book.cover}`}
+                            title={book.title}
+                            price={book.price}
+                            onAddToCart={() => handleAddToCart(book)}
+                        />
+         
                     ))}
                 </div>
                 <div className="col-md-3 filter-menu">
@@ -151,7 +166,8 @@ function Home() {
 }
 
 
-function ProductCard({ cover, title, price, id }) {
+
+function ProductCard({ cover, title, price, onAddToCart }) {
     const linkTo = `/product/${id}`;
     return (
         <div className="product-card w-1/2 md:w-1/3 px-2 mb-4">
@@ -167,7 +183,7 @@ function ProductCard({ cover, title, price, id }) {
 
                     <p className="card-text">{price}</p>
 
-                    <button className="btn btn-primary">DODAJ</button>
+                    <button className="btn btn-primary" onClick={onAddToCart}>DODAJ</button>
 
                 </div>
 
