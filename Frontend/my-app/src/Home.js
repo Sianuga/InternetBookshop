@@ -7,6 +7,8 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { CartContext } from './CartContext';
 import {Link} from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -40,65 +42,58 @@ function Home() {
     const handleAddToCart = (book) => {
         console.log('Add to cart:', book);
         addToCart(book);
+        toast.success(`${book.title} added to cart!`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
+    const [allBooks, setAllBooks] = useState([]); // Original list of books
+    const [filteredBooks, setFilteredBooks] = useState([]); // Filtered list of books
+
+    // Fetch books data and set states
+    useEffect(() => {
+        const fetchBooksData = async () => {
+            try {
+                const data = await fetchBooks();
+                setAllBooks(data); // Set original list
+                setFilteredBooks(data); // Initially, filtered list is the same as the original
+                setUniqueCategories([...new Set(data.map(book => book.category))]); // Get unique categories
+            } catch (error) {
+                console.error('Error fetching books data:', error);
+                setLoading(false);
+            }
+        };
+        fetchBooksData();
+    }, []);
 
 
-    const [allBooks, setAllBooks] = useState([]);
-    const [filteredBooks, setFilteredBooks] = useState([]);
+
     const [priceRange, setPriceRange] = useState({ min: 0, max: 100 });
     const [loading, setLoading] = useState(true);
     const [uniqueCategories, setUniqueCategories] = useState([]);
     const [nameFilter, setNameFilter] = useState('');
 
-    const handleFilterChange = ({ name, category, price }) => {
-        // Update the filters
-        setNameFilter(name);
+    // Handle filter change
+    const handleFilterChange = (filters) => {
+        let updatedFilteredBooks = allBooks; // Start with the original list
 
-        // Filter books based on the selected category
-        let filteredBooks = allBooks;
-        if (category !== 'All Categories') {
-            filteredBooks = filteredBooks.filter(book => book.category === category);
+        // Apply filters
+        if (filters.category !== 'All Categories') {
+            updatedFilteredBooks = updatedFilteredBooks.filter(book => book.category === filters.category);
         }
-
-        // Filter books based on the name
-        if (name.trim() !== '') {
-            filteredBooks = filteredBooks.filter(book => book.title.toLowerCase().includes(name.toLowerCase()));
+        if (filters.name) {
+            updatedFilteredBooks = updatedFilteredBooks.filter(book => book.title.toLowerCase().includes(filters.name.toLowerCase()));
         }
+        updatedFilteredBooks = updatedFilteredBooks.filter(book => parseFloat(book.price) <= parseFloat(filters.price.max));
 
-        // Filter books based on the price range
-        const parsedMaxPrice = parseFloat(price.max);
-        filteredBooks = filteredBooks.filter(book => parseFloat(book.price) <= parsedMaxPrice);
-
-        // Update the filtered books
-        setFilteredBooks(filteredBooks);
-
-        // Update the price range state
-        setPriceRange({ min: 0, max: parsedMaxPrice });
+        setFilteredBooks(updatedFilteredBooks); // Update only the filtered list
     };
-
-
-    useEffect(() => {
-        const fetchBooksData = async () => {
-          try {
-            const data = await fetchBooks();
-
-            const uniqueCategories = [...new Set(data.map(book => book.category))];
-            setUniqueCategories(uniqueCategories);
-
-            console.log("Unique categories:", uniqueCategories);
-            setAllBooks(data);
-            setFilteredBooks(data);
-            setLoading(false);
-          } catch (error) {
-            console.error('Error fetching books data:', error);
-            // Handle the error, show an error message, or perform other actions
-            setLoading(false);
-          }
-        };
-
-        fetchBooksData();
-      }, []);
 
     //   const handleFilterChange = (selectedCategory) => {
     //     // Filter books based on the selected category
@@ -135,11 +130,12 @@ function Home() {
 
     return (
         <div className="container main">
-
+            <ToastContainer />
             <div className="row">
                 <div className="col-md-9 book-grid">
                     {filteredBooks.map((book) => (
                         <ProductCard
+                            key={book.id}
                             cover={`${BASE_DJANGO_URL}${book.cover}`}
                             title={book.title}
                             price={book.price}

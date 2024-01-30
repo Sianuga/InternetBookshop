@@ -3,7 +3,10 @@ import './Delivery.css'
 import {useContext, useState} from 'react';
 import cloneStudentsCover from './Img/preview-page0.jpg';
 import { CartContext } from './CartContext';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {BASE_DJANGO_URL} from "./Home";
+import {toast, ToastContainer} from 'react-toastify'; // import toast for notifications
+
 
 // Mock data
 const booksData = [
@@ -18,9 +21,14 @@ const booksData = [
 ];
 
 function Delivery() {
+    const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
+    const [address, setAddress] = useState('');
+    const [deliveryMethod, setDeliveryMethod] = useState('Na adres');
+    const navigate = useNavigate(); // Hook for navigation
 
-    const { cartItemss, addToCart, removeFromCart } = useContext(CartContext);
+
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
 
     // Example usage
     const handleAddToCart = (item) => {
@@ -50,13 +58,6 @@ function Delivery() {
 
 
 
-    const [filteredBooks, setFilteredBooks] = useState(booksData);
-    // Dummy data for the shopping cart items
-    const cartItems = [
-        { id: 1, title: 'Clone. Students', quantity: 1 },
-        { id: 2, title: 'Rider', quantity: 1 },
-        { id: 3, title: 'Human design', quantity: 1 }
-    ];
 
     // Function to handle removing items from the cart
     const removeItemFromCart = (itemId) => {
@@ -73,16 +74,42 @@ function Delivery() {
 
     const onDeliveryChange = (e) => {
         console.log(e.target.value);
+        setDeliveryMethod(e.target.value)
         document.getElementById("address").disabled = e.target.value !== "Na adres";
+        document.getElementById("zipCode").disabled = e.target.value !== "Na adres";
+        document.getElementById("city").disabled = e.target.value !== "Na adres";
     }
+
+    // Validation for zip code
+    const isValidZipCode = (zip) => /^[0-9]{2}-[0-9]{3}$/.test(zip);
+
+    // Validation for city and address
+    const isNotEmpty = (str) => str.trim() !== '';
+
+// Overall validation check
+    const isValidForm = () => {
+        if (deliveryMethod === 'Na adres' && (!isNotEmpty(city) || !isValidZipCode(zipCode) || !isNotEmpty(address))) {
+            toast.error("Please fill out all required fields correctly for delivery to address.");
+            return false;
+        }
+        return true;
+    };
+
+    // Proceed to the next page if the form is valid
+    const handleProceed = () => {
+        if (isValidForm()) {
+            navigate('/payment'); // Navigate to the payment page
+        }
+    };
 
     return (
         <div className="shopping-cart-page">
+            <ToastContainer />
             <div className="container-sc">
                 <div className="personal-details">
                     <h2>Dane osobiste:</h2>
                     <label>Miasto:</label>
-                    <input type="text" />
+                    <input type="text" id={"city"} value={city} onChange={(e) => setCity(e.target.value)} />
                     <label>Kod pocztowy:</label>
                     <input
                         type="text"
@@ -97,10 +124,10 @@ function Delivery() {
                         maxLength="6" // 5 digits + hyphen
                     />
                     <label>Ulica/ Nr. lokalu:</label>
-                    <input id={'address'} type="text" />
+                    <input id={'address'} type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
                     <div>
                     <label>Forma dostawy:</label>
-                    <select  onChange={onDeliveryChange}>
+                    <select  onChange={onDeliveryChange} >
                         <option value="Na adres">Na adres</option>
                         <option value="Odbiór osobisty">Odbiór osobisty</option>
                     </select>
@@ -113,10 +140,10 @@ function Delivery() {
                 <div className="cart-items">
                     <h2 className={'content'}>Zawartość koszyka:</h2>
                     <div className="col-md-9 book-grid-d">
-                        {filteredBooks.map((book) => (
+                        {cartItems.map((book) => (
                             <ProductCard
                                 key={book.id}
-                                cover={book.cover}
+                                cover={`${BASE_DJANGO_URL}${book.cover}`}
                                 title={book.title}
                                 price={book.price}
                                 quantity={1} // Replace with the actual quantity state
@@ -126,7 +153,7 @@ function Delivery() {
                     </div>
                     <div className="actions">
 
-                    <Link to={"/payment"}>  <button className="proceed-button">Przejdź dalej</button> </Link>
+                        <button className="proceed-button" onClick={handleProceed}>Przejdź dalej</button>
                     </div>
                 </div>
             </div>

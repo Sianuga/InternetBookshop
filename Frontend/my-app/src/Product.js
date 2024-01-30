@@ -7,6 +7,9 @@ import { fetchBooks } from './Home';
 import { BASE_DJANGO_URL } from './Home';
 import { CartContext } from './CartContext';
 import {useContext} from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const booksData = [
     // { id: 1, title: 'Clone. Students', price: '33.99zł', cover: cloneStudentsCover, author: 'Author Name', description: 'Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Book description here...Bookhere...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book here...Book  description here...Book description here...' },
@@ -56,12 +59,22 @@ const booksData = [
 
     const handleAddToCart = (product) => {
         addToCart(product);
+        toast(`${product.title} dodano do koszyka!`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     };
 
 
     return (
         <div>
+            <ToastContainer />
             <div className="product-page">
+
                 <div className="book-cover">
                     <img className={'mainBookCover'} src={`${BASE_DJANGO_URL}${mainBook.cover}`} alt={mainBook.title} />
                 </div>
